@@ -1,0 +1,51 @@
+name: Dummy CI/CD Pipeline
+
+# 1. Triggers: Define what events start the workflow
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch: # Allows you to trigger the pipeline manually from the GitHub UI
+
+# 2. Jobs: The actual work to be performed
+jobs:
+
+  # Continuous Integration (CI) Job
+  continuous-integration:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Clone the repository code onto the runner machine
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2: Dummy Build Step
+      - name: Code Build Simulation
+        run: |
+          echo "Starting the application build process..."
+          echo "Compiling source files..."
+          echo "Build completed successfully!"
+
+      # Step 3: Dummy Testing Step
+      - name: Unit Testing Simulation
+        run: |
+          echo "Running automated unit tests..."
+          echo "Test suite passed: 145/145 tests successful."
+
+  # Continuous Deployment (CD) Job
+  continuous-deployment:
+    runs-on: ubuntu-latest
+    # This ensures deployment only runs if the CI pipeline passes successfully
+    needs: continuous-integration 
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 4: Dummy Deploy Step
+      - name: Production Deployment Simulation
+        run: |
+          echo "Connecting to the production environment..."
+          echo "Deploying the latest build artifacts..."
+          echo "Deployment successful! App is now live."
